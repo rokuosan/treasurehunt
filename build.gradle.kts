@@ -6,6 +6,9 @@ import java.net.URI
 plugins {
     kotlin("jvm") version "1.9.0"
     application
+
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("xyz.jpenilla.run-paper") version "2.2.0"
 }
 
 group = "io.github.rokuosan"
@@ -51,6 +54,16 @@ tasks.withType(ProcessResources::class) {
         filesMatching("paper-plugin.yml") {
             expand(props)
         }
+        filesMatching("plugin.yml") {
+            expand(props)
+        }
+    }
+}
+
+tasks{
+    runServer {
+        minecraftVersion("1.20.2")
+        jvmArgs("-Xmx2G")
     }
 }
 
