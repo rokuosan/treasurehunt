@@ -1,9 +1,13 @@
 package io.github.rokuosan.treasurehunt
 
+import io.github.rokuosan.treasurehunt.commands.GetRecipeCommand
 import io.github.rokuosan.treasurehunt.commands.HuntCommand
 import io.github.rokuosan.treasurehunt.commands.HuntCommandTabCompletion
+import org.bukkit.Material
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
+import kotlin.io.path.Path
+import kotlin.text.Charsets.UTF_8
 
 class TreasureHunt: JavaPlugin() {
     companion object {
@@ -24,6 +28,8 @@ class TreasureHunt: JavaPlugin() {
         // Register commands
         getCommand("hunt")?.setExecutor(HuntCommand())
         getCommand("hunt")?.tabCompleter = HuntCommandTabCompletion()
+
+        getCommand("getrecipe")?.setExecutor(GetRecipeCommand())
 
     }
 }

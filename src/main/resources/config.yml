@@ -1,6 +1,18 @@
 price:
-  minecraft:
-    stone: 1.0
-    dirt: 0.5
-    grass: 0.5
-    cobblestone: 1.0
+  STONE: 1
+
+  #  Ores
+  COAL: 5
+  CHARCOAL: 3
+  COPPER_INGOT: 5
+  IRON_INGOT: 10
+  LAPIS_LAZULI: 20
+  QUARTZ: 20
+  REDSTONE: 10
+  AMETHYST_SHARD: 20
+  GOLD_INGOT: 30
+  DIAMOND: 120
+  EMERALD: 120
+  ANCIENT_DEBRIS: 600
+  NETHERITE_SCRAP: 600
+  NETHERITE_INGOT: 2520

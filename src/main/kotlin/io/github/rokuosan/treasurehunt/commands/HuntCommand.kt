@@ -12,7 +12,17 @@ class HuntCommand : CommandExecutor {
         if(sender !is Player) return false
         if(args.isEmpty()) return false
 
-        sender.sendMessage("You ran the command!")
+        val subCommands = listOf("start", "stop")
+        if (args[0] !in subCommands) return false
+
+        when(args[0]){
+            "start" -> {
+                sender.sendMessage("Start")
+            }
+            "stop" -> {
+                sender.sendMessage("Stop")
+            }
+        }
 
         return true
     }

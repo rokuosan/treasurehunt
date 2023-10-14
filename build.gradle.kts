@@ -28,7 +28,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
+//    compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
+    implementation("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
 
     testImplementation(kotlin("test"))
 }
