@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 
 class HuntCommand : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        if(command.name.equals("hunt", true)) return false
+        if(!command.name.equals("hunt", true)) return false
         if(sender !is Player) return false
         if(args.isEmpty()) return false
 
