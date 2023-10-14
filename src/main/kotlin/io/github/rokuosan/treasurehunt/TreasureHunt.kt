@@ -1,22 +1,29 @@
 package io.github.rokuosan.treasurehunt
 
-import org.bukkit.Bukkit
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerJoinEvent
+import io.github.rokuosan.treasurehunt.commands.HuntCommand
+import io.github.rokuosan.treasurehunt.commands.HuntCommandTabCompletion
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.logging.Logger
 
-class TreasureHunt: JavaPlugin(), Listener {
-    override fun onEnable() {
-        logger.info("Starting TreasureHunt...")
+class TreasureHunt: JavaPlugin() {
+    companion object {
+        lateinit var plugin: TreasureHunt
+            private set
 
-        Bukkit.getPluginManager().registerEvents(this, this)
+        lateinit var logger: Logger
+            private set
     }
 
-    @EventHandler
-    fun onPlayerJoin(event: PlayerJoinEvent) {
-        logger.info("Player joined!")
-        val p = event.player
-        p.sendMessage("Welcome to the server!")
+
+    override fun onEnable() {
+        // Initialization
+        saveDefaultConfig()
+        plugin = this
+        Companion.logger = logger
+
+        // Register commands
+        getCommand("hunt")?.setExecutor(HuntCommand())
+        getCommand("hunt")?.tabCompleter = HuntCommandTabCompletion()
+
     }
 }
