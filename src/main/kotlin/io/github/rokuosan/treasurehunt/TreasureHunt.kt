@@ -1,6 +1,7 @@
 package io.github.rokuosan.treasurehunt
 
 import io.github.rokuosan.treasurehunt.commands.*
+import io.github.rokuosan.treasurehunt.inventories.ExchangeInventoryEventListener
 import net.milkbowl.vault.chat.Chat
 import net.milkbowl.vault.economy.Economy
 import net.milkbowl.vault.permission.Permission
@@ -28,11 +29,13 @@ class TreasureHunt: JavaPlugin() {
         saveDefaultConfig()
         plugin = this
         Companion.logger = logger
-//        if(!setupEconomy()){
-//            logger.severe("Vault not found!")
-//            server.pluginManager.disablePlugin(this)
-//            return
-//        }
+
+        if (server.pluginManager.getPlugin("Vault") == null) {
+            logger.severe("Vault not found! Disabling plugin...")
+            server.pluginManager.disablePlugin(this)
+            return
+        }
+        setupEconomy()
         setupPermissions()
         setupChat()
 
@@ -45,12 +48,14 @@ class TreasureHunt: JavaPlugin() {
         getCommand("calculate")?.setExecutor(CalculateCommand())
         getCommand("calculate")?.tabCompleter = CalculateCommandTabCompletion()
 
+        getCommand("exchange")?.setExecutor(ExchangeCommand())
+
+        // Register events
+        server.pluginManager.registerEvents(ExchangeInventoryEventListener(), this)
+
     }
 
     private fun setupEconomy(): Boolean {
-        if (server.pluginManager.getPlugin("Vault") == null) {
-            return false
-        }
         val rsp = server.servicesManager.getRegistration(
             Economy::class.java
         )

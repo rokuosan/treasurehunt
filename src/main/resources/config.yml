@@ -1,7 +1,10 @@
+# The prices must be integers
 price:
+  default: 0
+
   STONE: 1
 
-  #  Ores
+  #  Mining
   COAL: 5
   CHARCOAL: 3
   COPPER_INGOT: 5
@@ -16,3 +19,20 @@ price:
   ANCIENT_DEBRIS: 600
   NETHERITE_SCRAP: 600
   NETHERITE_INGOT: 2520
+
+  # Mob
+  ROTTEN_FLESH: 2
+  BONE: 2
+  STRING: 2
+  SPIDER_EYE: 2
+  GUNPOWDER: 3
+  ENDER_PEARL: 10
+  GHAST_TEAR: 10
+  SLIME_BALL: 5
+  MAGMA_CREAM: 5
+  BLAZE_ROD: 10
+  NETHER_STAR: 3600
+  PHANTOM_MEMBRANE: 10
+  SHULKER_SHELL: 10
+  TURTLE_HELMET: 10
+  SCUTE: 5
