@@ -17,3 +17,6 @@ commands:
     permission-message: You don't have permission to use this command.
   getrecipe:
     description: Get recipe
+  calculate:
+    description: Calculate the price of the item
+    aliases: [calc]
