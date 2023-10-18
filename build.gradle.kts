@@ -25,11 +25,16 @@ repositories {
         name = "sonatype"
         url = URI.create("https://oss.sonatype.org/content/groups/public/")
     }
+    maven {
+        name = "jitpack"
+        url = URI.create("https://jitpack.io")
+    }
 }
 
 dependencies {
-//    compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
-    implementation("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+//    implementation("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
 
     testImplementation(kotlin("test"))
 }
