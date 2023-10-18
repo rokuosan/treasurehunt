@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 
 
+@Suppress("unused")
 class TreasureHunt: JavaPlugin() {
     companion object {
         lateinit var plugin: TreasureHunt
