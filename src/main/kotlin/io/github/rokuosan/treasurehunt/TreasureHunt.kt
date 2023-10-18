@@ -1,8 +1,6 @@
 package io.github.rokuosan.treasurehunt
 
-import io.github.rokuosan.treasurehunt.commands.GetRecipeCommand
-import io.github.rokuosan.treasurehunt.commands.HuntCommand
-import io.github.rokuosan.treasurehunt.commands.HuntCommandTabCompletion
+import io.github.rokuosan.treasurehunt.commands.*
 import net.milkbowl.vault.chat.Chat
 import net.milkbowl.vault.economy.Economy
 import net.milkbowl.vault.permission.Permission
@@ -30,11 +28,11 @@ class TreasureHunt: JavaPlugin() {
         saveDefaultConfig()
         plugin = this
         Companion.logger = logger
-        if(!setupEconomy()){
-            logger.severe("Vault not found!")
-            server.pluginManager.disablePlugin(this)
-            return
-        }
+//        if(!setupEconomy()){
+//            logger.severe("Vault not found!")
+//            server.pluginManager.disablePlugin(this)
+//            return
+//        }
         setupPermissions()
         setupChat()
 
@@ -43,6 +41,9 @@ class TreasureHunt: JavaPlugin() {
         getCommand("hunt")?.tabCompleter = HuntCommandTabCompletion()
 
         getCommand("getrecipe")?.setExecutor(GetRecipeCommand())
+
+        getCommand("calculate")?.setExecutor(CalculateCommand())
+        getCommand("calculate")?.tabCompleter = CalculateCommandTabCompletion()
 
     }
 
