@@ -9,7 +9,6 @@ class Calculator {
     /**
      * Perform calculation for the item
      *
-     * @param player Player who is performing the calculation
      * @param item Item to be calculated
      * @return Price of the item
      */
