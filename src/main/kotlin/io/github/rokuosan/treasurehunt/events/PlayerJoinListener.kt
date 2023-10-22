@@ -13,11 +13,12 @@ class PlayerJoinListener: Listener {
         val status = GameResource.status
         if (status == GameResource.GameStatus.NOT_STARTED) {
             if (!event.player.isOp) {
-                event.player.gameMode = GameMode.SPECTATOR
+                event.player.gameMode = GameMode.ADVENTURE
             }
         }else if (status == GameResource.GameStatus.PLAYING) {
             val player = event.player
             val teams = GameResource.teams
+            player.gameMode = GameMode.SURVIVAL
 
             if (player.isOp) return
             if (teams.isEmpty()) return

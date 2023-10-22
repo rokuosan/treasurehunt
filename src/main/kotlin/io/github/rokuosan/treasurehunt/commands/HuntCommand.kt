@@ -35,7 +35,10 @@ class HuntCommand : CommandExecutor {
 
                 TreasureHunt.plugin.server.onlinePlayers
                     .filter { !it.isOp }
-                    .forEach(GameResource::initializePlayerStatus)
+                    .forEach{
+                        it.gameMode = org.bukkit.GameMode.SURVIVAL
+                        GameResource.initializePlayerStatus(it)
+                    }
 
                 this.task = HuntGameScheduler().runTaskTimer(TreasureHunt.plugin, 0, 20)
             }
