@@ -18,6 +18,7 @@ object GameResource {
 
     fun initializePlayerStatus(player: Player){
         player.inventory.clear()
+        player.inventory.setItemInOffHand(null)
         player.activePotionEffects.forEach { effect ->
             player.removePotionEffect(effect.type)
         }
