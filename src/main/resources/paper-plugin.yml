@@ -1,7 +1,0 @@
-name: TreasureHunt
-version: '${version}'
-main: io.github.rokuosan.treasurehunt.TreasureHunt
-api-version: "1.20"
-load: STARTUP
-authors: [ rokuosan ]
-
