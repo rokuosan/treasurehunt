@@ -7,12 +7,13 @@ authors: [ rokuosan ]
 prefix: 'TreasureHunt'
 depend:
   - Vault
+  - Essentials
 
 commands:
   hunt:
     description: TreasureHunt command
     aliases: [th]
-    usage: /<command> [reload|start|stop|status|help]
+    usage: /<command> [start|stop|team]
     permission: treasurehunt.command
     permission-message: You don't have permission to use this command.
   getrecipe:
