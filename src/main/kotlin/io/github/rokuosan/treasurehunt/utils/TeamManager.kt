@@ -7,9 +7,11 @@ import org.bukkit.entity.Player
 import org.bukkit.scoreboard.Team
 
 class TeamManager {
-    private val plugin = TreasureHunt.plugin
-    private val sbm = plugin.server.scoreboardManager
-    private val board = sbm.newScoreboard
+    companion object {
+        private val plugin = TreasureHunt.plugin
+        private val sbm = plugin.server.scoreboardManager
+        val board = sbm.newScoreboard
+    }
 
     fun randomGenerate(divideInto: Int): Map<Team, MutableList<Player>>{
         val players = ArrayDeque(plugin.server.onlinePlayers.shuffled())
@@ -18,7 +20,7 @@ class TeamManager {
 
         val teams: MutableMap<Team, MutableList<Player>> = mutableMapOf()
         repeat(divideInto){
-            val team = this.board.registerNewTeam("Team_${it + 1}")
+            val team = board.registerNewTeam("Team_${it + 1}")
             team.displayName(Component.text("Team ${it + 1}", NamedTextColor.GREEN))
             team.prefix(Component.text("[Team ${it + 1}] ", NamedTextColor.GREEN))
             team.setCanSeeFriendlyInvisibles(true)
@@ -52,6 +54,13 @@ class TeamManager {
         }
         plugin.server.onlinePlayers.forEach {
             it.scoreboard = board
+        }
+    }
+
+    object Balancer {
+        fun getInsufficientTeam(teams: Map<Team, MutableList<Player>>): Team?{
+            val min = teams.values.minOfOrNull { it.size } ?: return null
+            return teams.filter { it.value.size == min }.keys.first()
         }
     }
 }
