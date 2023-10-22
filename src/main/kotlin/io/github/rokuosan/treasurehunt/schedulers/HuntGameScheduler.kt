@@ -1,6 +1,7 @@
 package io.github.rokuosan.treasurehunt.schedulers
 
 import io.github.rokuosan.treasurehunt.TreasureHunt
+import io.github.rokuosan.treasurehunt.utils.Calculator
 import io.github.rokuosan.treasurehunt.utils.GameResource
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
@@ -24,8 +25,15 @@ class HuntGameScheduler: BukkitRunnable() {
         val timeLeft = (end - nt) / 1000
 
         if (timeLeft <= 0) {
+            val vault = TreasureHunt.eco!!
+            val calculator = Calculator()
             val title = Title.title(Component.text(""), Component.text("Finish!!", NamedTextColor.RED))
             TreasureHunt.plugin.server.onlinePlayers.forEach {
+                val items = it.inventory.contents.filterNotNull()
+                val price = calculator.performItems(items)
+                vault.depositPlayer(it, price.toDouble())
+                it.inventory.removeItem(*items.toTypedArray())
+
                 it.showTitle(title)
             }
 
