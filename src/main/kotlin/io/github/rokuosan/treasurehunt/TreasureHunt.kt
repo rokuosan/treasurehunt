@@ -1,6 +1,7 @@
 package io.github.rokuosan.treasurehunt
 
 import io.github.rokuosan.treasurehunt.commands.*
+import io.github.rokuosan.treasurehunt.inventories.ExchangeConfirmInventoryEventListener
 import io.github.rokuosan.treasurehunt.inventories.ExchangeInventoryEventListener
 import net.milkbowl.vault.chat.Chat
 import net.milkbowl.vault.economy.Economy
@@ -52,7 +53,7 @@ class TreasureHunt: JavaPlugin() {
 
         // Register events
         server.pluginManager.registerEvents(ExchangeInventoryEventListener(), this)
-
+        server.pluginManager.registerEvents(ExchangeConfirmInventoryEventListener(), this)
     }
 
     private fun setupEconomy(): Boolean {

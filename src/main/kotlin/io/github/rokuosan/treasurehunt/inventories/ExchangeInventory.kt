@@ -1,7 +1,6 @@
 package io.github.rokuosan.treasurehunt.inventories
 
 import io.github.rokuosan.treasurehunt.TreasureHunt
-import io.github.rokuosan.treasurehunt.utils.Calculator
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -12,6 +11,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
+import org.bukkit.scheduler.BukkitRunnable
 
 class ExchangeInventory(
     plugin: TreasureHunt
@@ -67,34 +67,19 @@ class  ExchangeInventoryEventListener: Listener {
         if(clicked == ExchangeInventory.done){
             event.isCancelled = true
             val player = event.whoClicked as Player
-            val calculator = Calculator()
-
             val items = event.inventory.contents.toList()
                 .filterNotNull()
                 .filter{ it != ExchangeInventory.done }
                 .filter{ it != ExchangeInventory.empty }
-            player.sendMessage(items.toString())
-            val price = calculator.performItems(items)
-            val eco = TreasureHunt.eco
-            if(eco == null){
-                player.sendMessage("Economy plugin not found!")
-                return
-            }
-            eco.depositPlayer(player, price.toDouble())
-            player.sendMessage("You have been given $price")
+            if(items.isEmpty()) return
+            event.inventory.removeItem(*items.toTypedArray())
             player.closeInventory()
-
-            return
+            object: BukkitRunnable(){
+                override fun run() {
+                    player.openInventory(ExchangeConfirmInventory(TreasureHunt.plugin, player, items).inventory)
+                }
+            }.runTaskLater(TreasureHunt.plugin, 1)
         }
-
-        // Do not allow moving items which have no price
-        val calc = Calculator()
-        val value = calc.performItem(clicked)
-        if(value == 0){
-            event.isCancelled = true
-            return
-        }
-        event.whoClicked.sendMessage("${clicked.type.name}: ${value}/block (${value * clicked.amount})")
     }
 
     @EventHandler
