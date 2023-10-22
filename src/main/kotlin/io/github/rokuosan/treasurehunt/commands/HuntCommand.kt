@@ -1,11 +1,10 @@
 package io.github.rokuosan.treasurehunt.commands
 
 import io.github.rokuosan.treasurehunt.TreasureHunt
+import io.github.rokuosan.treasurehunt.schedulers.HuntGameScheduler
 import io.github.rokuosan.treasurehunt.utils.TeamManager
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
-import net.kyori.adventure.text.format.TextColor
-import org.bukkit.ChatColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -18,10 +17,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class HuntCommand : CommandExecutor {
-    companion object {
-        val PLAYER_TASK_MAP = mutableMapOf<Player, BukkitTask>()
-    }
-
+    private var task: BukkitTask? = null
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if(!command.name.equals("hunt", true)) return false
         if(sender !is Player) return false
@@ -32,39 +28,16 @@ class HuntCommand : CommandExecutor {
 
         when(args[0].lowercase(Locale.US)){
             "start" -> {
-                if (PLAYER_TASK_MAP.containsKey(sender)) {
-                    sender.sendMessage("Already started")
-                    return true
+                val players = TreasureHunt.plugin.server.onlinePlayers
+                players.forEach{
+                    val vault = TreasureHunt.eco!!
+                    vault.withdrawPlayer(it, vault.getBalance(it))
                 }
 
-                sender.sendMessage("Start")
-                val task = object: BukkitRunnable() {
-                    override fun run() {
-                        val players = TreasureHunt.plugin.server.onlinePlayers
-                        val now = DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalDateTime.now())
-                        for(player in players) {
-                            val bal = TreasureHunt.eco!!.getBalance(player).toInt()
-                            val msg = Component.text()
-                                .append(Component.text("\uD83D\uDD52: ", NamedTextColor.GREEN))
-                                .append(Component.text(now, NamedTextColor.YELLOW))
-                                .append(Component.text(" | ", NamedTextColor.WHITE))
-                                .append(Component.text("\uD83D\uDCB0: ", NamedTextColor.GREEN))
-                                .append(Component.text(bal, NamedTextColor.YELLOW))
-                            player.sendActionBar(msg)
-                        }
-                    }
-                }.runTaskTimerAsynchronously(TreasureHunt.plugin, 0, 20)
-                PLAYER_TASK_MAP[sender] = task
+                this.task = HuntGameScheduler().runTaskTimer(TreasureHunt.plugin, 0, 20)
             }
             "stop" -> {
-                if (!PLAYER_TASK_MAP.containsKey(sender)) {
-                    sender.sendMessage("Not started")
-                    return true
-                }
-
-                sender.sendMessage("Stop")
-                val task = PLAYER_TASK_MAP[sender]!!
-                task.cancel()
+                this.task?.cancel()
             }
             "team" -> {
                 val expect = listOf("random", "reset")

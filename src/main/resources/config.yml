@@ -1,4 +1,8 @@
 # The prices must be integers
+config:
+  game:
+    duration_seconds: 300
+
 price:
   default: 0
 
