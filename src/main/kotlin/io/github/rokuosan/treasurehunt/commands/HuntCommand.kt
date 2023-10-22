@@ -3,17 +3,12 @@ package io.github.rokuosan.treasurehunt.commands
 import io.github.rokuosan.treasurehunt.TreasureHunt
 import io.github.rokuosan.treasurehunt.schedulers.HuntGameScheduler
 import io.github.rokuosan.treasurehunt.utils.TeamManager
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
-import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class HuntCommand : CommandExecutor {
