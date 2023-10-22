@@ -2,6 +2,7 @@ package io.github.rokuosan.treasurehunt.commands
 
 import io.github.rokuosan.treasurehunt.TreasureHunt
 import io.github.rokuosan.treasurehunt.schedulers.HuntGameScheduler
+import io.github.rokuosan.treasurehunt.utils.GameResource
 import io.github.rokuosan.treasurehunt.utils.TeamManager
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -29,6 +30,13 @@ class HuntCommand : CommandExecutor {
                     vault.withdrawPlayer(it, vault.getBalance(it))
                 }
 
+                GameResource.status = GameResource.GameStatus.PLAYING
+                GameResource.playerRanking = listOf()
+
+                TreasureHunt.plugin.server.onlinePlayers
+                    .filter { !it.isOp }
+                    .forEach(GameResource::initializePlayerStatus)
+
                 this.task = HuntGameScheduler().runTaskTimer(TreasureHunt.plugin, 0, 20)
             }
             "stop" -> {
@@ -51,7 +59,7 @@ class HuntCommand : CommandExecutor {
                         }
 
                         val manager = TeamManager()
-                        val teams = manager.randomGenerate(divideInto)
+                        GameResource.teams = manager.randomGenerate(divideInto)
 
                         sender.sendMessage("Teams are generated")
                     }
